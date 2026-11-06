@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Sumi — руководство</title>
+<style>
+@font-face { font-family: "Medeo Sans"; src: url("../../Resources/Fonts/MedeoSans-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: "Medeo Sans"; src: url("../../Resources/Fonts/MedeoSans-SemiBold.ttf"); font-weight: 600; }
+@font-face { font-family: "Medeo Mono"; src: url("../../Resources/Fonts/MedeoMono-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: "Medeo Mono"; src: url("../../Resources/Fonts/MedeoMono-SemiBold.ttf"); font-weight: 600; }
+@font-face { font-family: "Medeo Pixel"; src: url("../../Resources/Fonts/MedeoPixel-Regular.ttf"); }
+
+:root {
+  --window: #E4E5E1; --surface: #F5F5F2; --well: #E9EAE6; --track: #C2C3BE;
+  --ink: #131416; --ink2: #4B4D52; --signal: #E84A00; --carrier: #2740F0; --mod: #D7245E; --live: #138A62;
+  --outline: rgba(19,20,22,.12);
+}
+@page { size: A4; margin: 16mm 16mm 18mm 16mm; }
+@page :first { margin: 0; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; font-family: "Medeo Sans", sans-serif; font-size: 10pt; line-height: 1.5; color: var(--ink); background: #fff; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; margin: 0; }
+h2 { font-size: 20pt; margin: 0 0 4mm; padding-top: 1mm; }
+h2 .n { font-family: "Medeo Mono"; color: var(--signal); font-size: 11pt; vertical-align: 4pt; margin-right: 3mm; }
+h3 { font-size: 12pt; margin: 6mm 0 2mm; }
+p { margin: 0 0 2.5mm; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1.2mm; }
+b, strong { font-weight: 600; }
+code, .mono { font-family: "Medeo Mono", monospace; font-size: 9pt; }
+code { background: var(--well); border: 1px solid var(--outline); border-radius: 4px; padding: 0 1.2mm; }
+.lead { font-size: 11.5pt; color: var(--ink2); margin-bottom: 5mm; }
+section { break-before: page; }
+.keep { break-inside: avoid; }
+
+figure { margin: 3mm 0 4mm; break-inside: avoid; }
+figure img { width: 100%; max-width: 150mm; margin: 0 auto; display: block; border-radius: 10px; border: 1px solid var(--outline); }
+figcaption { font-size: 8.5pt; color: var(--ink2); margin-top: 1.5mm; text-align: center; }
+.small img { max-width: 110mm; }
+.mid img { max-width: 118mm; }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.side { display: grid; grid-template-columns: 52mm 1fr; gap: 6mm; align-items: start; }
+
+table { width: 100%; border-collapse: collapse; margin: 1mm 0 4mm; font-size: 9.3pt; break-inside: auto; }
+th { text-align: left; font-weight: 600; color: var(--ink2); font-size: 8.5pt; text-transform: uppercase; letter-spacing: .04em;
+     border-bottom: 1px solid var(--ink); padding: 1.5mm 2mm 1.5mm 0; }
+td { border-bottom: 1px solid var(--outline); padding: 1.6mm 2mm 1.6mm 0; vertical-align: top; }
+tr { break-inside: avoid; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td.r { font-family: "Medeo Mono"; font-size: 8.6pt; color: var(--ink2); white-space: nowrap; }
+
+.note { background: var(--surface); border: 1px solid var(--outline); border-left: 3px solid var(--signal); border-radius: 8px;
+        padding: 3mm 4mm; margin: 3mm 0 4mm; break-inside: avoid; }
+.note b:first-child { color: var(--signal); }
+.chip { display: inline-block; font-size: 8.5pt; font-weight: 600; border-radius: 99px; padding: 0 2mm; border: 1px solid var(--outline); background: var(--surface); }
+.c { color: var(--carrier); font-weight: 600; } .m { color: var(--mod); font-weight: 600; } .s { color: var(--signal); font-weight: 600; }
+.steps { counter-reset: s; list-style: none; padding: 0; }
+.steps li { counter-increment: s; position: relative; padding-left: 9mm; margin-bottom: 2.5mm; }
+.steps li::before { content: counter(s); position: absolute; left: 0; top: .2mm; width: 6mm; height: 6mm; border-radius: 50%;
+  background: var(--ink); color: #fff; font-family: "Medeo Mono"; font-size: 8.5pt; text-align: center; line-height: 6mm; }
+
+/* обложка */
+.cover { height: 297mm; background: #0F1012; color: #EDEDE9; position: relative; overflow: hidden; break-after: page; }
+.cover .grid { position: absolute; inset: 0; background-image: radial-gradient(rgba(237,237,233,.10) 1px, transparent 1.2px); background-size: 6mm 6mm; }
+.cover .logo { position: absolute; left: 0; right: 0; top: 96mm; text-align: center; font-family: "Medeo Pixel"; font-size: 84pt; line-height: 1; letter-spacing: 0; }
+.cover .sub { position: absolute; left: 0; right: 0; top: 140mm; text-align: center; font-size: 13pt; color: #A9AAAE; }
+.cover .sub b { color: #FF6B2C; font-weight: 600; }
+.cover .shot { position: absolute; left: 38mm; right: 38mm; top: 160mm; }
+.cover .shot img { width: 100%; border-radius: 12px; border: 1px solid rgba(237,237,233,.12); }
+.cover .foot { position: absolute; left: 16mm; right: 16mm; bottom: 12mm; display: flex; justify-content: space-between;
+  font-family: "Medeo Mono"; font-size: 8.5pt; color: #A9AAAE; }
+
+.toc { columns: 2; column-gap: 8mm; list-style: none; padding: 0; margin-top: 4mm; }
+.toc li { break-inside: avoid; display: flex; gap: 3mm; padding: 1.6mm 0; border-bottom: 1px solid var(--outline); }
+.toc .mono { color: var(--signal); width: 7mm; }
+.algs { columns: 2; column-gap: 8mm; font-size: 9pt; }
+.algs div { break-inside: avoid; display: grid; grid-template-columns: 7mm 30mm 1fr; padding: .9mm 0; border-bottom: 1px solid var(--outline); }
+.algs .mono { color: var(--ink2); font-size: 8.3pt; }
+</style>
+</head>
+
+<body>
+
+<div class="cover">
+  <div class="grid"></div>
+  <div class="logo">Sumi</div>
+  <div class="sub">Руководство пользователя · <b>v1</b></div>
+  <div class="shot"><img src="img/main.jpg"></div>
+  <div class="foot"><span>picture → spectrogram · VST3 · AU · macOS</span><span>made by nnn</span></div>
+</div>
+
+<section style="break-before: auto">
+  <h2>Содержание</h2>
+  <ul class="toc">
+    <li><span class="mono">01</span>Что такое Sumi</li>
+    <li><span class="mono">02</span>Установка</li>
+    <li><span class="mono">03</span>Первая картинка за минуту</li>
+    <li><span class="mono">04</span>Окно плагина</li>
+    <li><span class="mono">05</span>Главный вид: Canvas и Live</li>
+    <li><span class="mono">06</span>Картинка</li>
+    <li><span class="mono">07</span>Время и такты</li>
+    <li><span class="mono">08</span>Paint — синтез с нуля</li>
+    <li><span class="mono">09</span>Imprint — в готовый звук</li>
+    <li><span class="mono">10</span>Пресеты и настройки</li>
+    <li><span class="mono">11</span>Рецепты</li>
+    <li><span class="mono">12</span>Вопросы и ответы</li>
+  </ul>
+
+  <h2 style="margin-top: 10mm"><span class="n">01</span>Что такое Sumi</h2>
+  <p class="lead">Sumi рисует картинку на спектрограмме. Яркость пикселя становится громкостью, высота — частотой, ширина — временем.</p>
+  <p>Откройте звук в любом анализаторе спектра — там будет картинка. Название — японская тушь (墨): картинка ложится на спектр, как тушь на бумагу.</p>
+  <ul>
+    <li><b>Paint</b> — синтез с нуля. Главное — картинка, а не звук: каждый кадр спектра строится из столбца картинки, вход не нужен.</li>
+    <li><b>Imprint</b> — картинка вписывается в готовый звук: <b>Add</b> кладёт её поверх, <b>Mask</b> вырезает звук по её форме.</li>
+    <li>Любая картинка PNG, JPG или GIF, текст или одна из семи встроенных. Картинка сохраняется в проекте.</li>
+    <li>Шкалы <b>Lin / Log / Mel</b> — под анализатор, в котором будете смотреть.</li>
+    <li>Картинка стоит на тактах DAW и играет по транспорту, задержка компенсируется.</li>
+    <li>Вид <b>Live</b> показывает спектрограмму выхода прямо под картинкой.</li>
+  </ul>
+  <figure class="mid"><img src="img/spec_enso.jpg"><figcaption>Спектрограмма звука пресета Enso: круг кистью, 200 Гц – 16 кГц, логарифмическая шкала.</figcaption></figure>
+  <div class="note"><b>Как читать.</b> Названия ручек и кнопок даны так, как они подписаны в плагине (по-английски). Диапазоны и значения по умолчанию — моноширинным шрифтом.</div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>Установка</h2>
+  <p>Нужен Mac с macOS 11 или новее (Apple Silicon или Intel). Плагин не подписан сертификатом Apple, поэтому ставится скриптом, который снимает карантин.</p>
+  <h3>Одной командой в Терминале</h3>
+  <p>Нужен установленный <code>gh</code> (GitHub CLI). Команда скачивает последний релиз, распаковывает и устанавливает:</p>
+  <p><code style="display:block; padding: 2.5mm 3mm; line-height: 1.6; white-space: pre-wrap; word-break: break-all;">cd ~/Downloads &amp;&amp; rm -rf Sumi-macOS Sumi-macOS.zip &amp;&amp; gh release download -R controloptioncommand/Sumi-vst -p Sumi-macOS.zip &amp;&amp; unzip -q Sumi-macOS.zip -d Sumi-macOS &amp;&amp; bash Sumi-macOS/install-mac.sh</code></p>
+  <h3>Вручную</h3>
+  <ol class="steps">
+    <li>Скачайте <b>Sumi-macOS.zip</b> со страницы релизов: <span class="mono">github.com/controloptioncommand/Sumi-vst/releases</span>.</li>
+    <li>Распакуйте архив двойным кликом.</li>
+    <li>В Терминале выполните <code>bash ~/Downloads/Sumi-macOS/install-mac.sh</code>. Скрипт кладёт <code>Sumi.vst3</code> и <code>Sumi.component</code> в <code>~/Library/Audio/Plug-Ins</code>.</li>
+    <li>Перезапустите Ableton. Если Sumi не появился: Settings → Plug-Ins → Rescan.</li>
+  </ol>
+  <p>В архиве есть папка <code>demo</code>: примеры звучания пресетов и их спектрограммы. Обновление — та же команда: новая версия заменит старую, проекты и пресеты не трогаются.</p>
+
+  <h2 style="margin-top: 10mm"><span class="n">03</span>Первая картинка за минуту</h2>
+  <ol class="steps">
+    <li>Создайте пустую аудиодорожку и положите на неё Sumi (это аудиоэффект). Пресет по умолчанию — <b>Enso</b>, режим <b>Paint</b>.</li>
+    <li>Нажмите Play в DAW. С первого такта четыре такта звучит круг энсо — шум, сложенный в форму.</li>
+    <li>Переключите вид на <b>Live</b> (снизу справа): под оранжевым курсором проступает спектрограмма выхода.</li>
+    <li>Перетащите свою картинку из Finder на вид. Чёрное будет тишиной, белое — громким. Тёмный рисунок на белом — включите <b>Invert</b>.</li>
+    <li>Запишите или экспортируйте звук и откройте его в анализаторе спектра. Выберите в Sumi ту же шкалу, что у анализатора: <b>Lin</b>, <b>Log</b> или <b>Mel</b>.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="n">04</span>Окно плагина</h2>
+  <figure style="margin-top:0"><img src="img/main.jpg" style="max-width: 120mm"><figcaption>Главное окно в тёмной теме Rubber, вид Live.</figcaption></figure>
+  <table>
+    <tr><th style="width:34mm">Зона</th><th>Что там</th></tr>
+    <tr><td>Тулбар</td><td>Логотип (клик — страница About), пресет <span class="mono">‹ имя ›</span>, режим Paint / Imprint, Out, настройки.</td></tr>
+    <tr><td>Главный вид</td><td>Canvas — картинка так, как она ляжет на спектрограмму, Live — спектрограмма выхода.</td></tr>
+    <tr><td>Панель слева</td><td>Картинка: выбор, шкала, полоса частот, Contrast, Range, такт начала.</td></tr>
+    <tr><td>Панель справа</td><td>Режим: размер FFT и ручки Paint или Imprint.</td></tr>
+    <tr><td>Подвал</td><td>Invert, Loop, Length; справа размер FFT, задержка и нагрузка CPU.</td></tr>
+  </table>
+  <h3>Тулбар</h3>
+  <figure><img src="img/toolbar.jpg"></figure>
+  <ul>
+    <li><b>‹ ›</b> — предыдущий и следующий пресет. Клик по имени — список: фабричные, ваши, Save preset…, Show presets folder.</li>
+    <li><b>Paint / Imprint</b> — режим.</li>
+    <li><b>Out</b> — громкость выхода <span class="mono">−36…+6 dB</span> (по умолчанию <span class="mono">0</span>): тяните по шкале, двойной клик — <span class="mono">0</span>. Цветная полоса — уровень сигнала, выше −1 dB она оранжевая. Выход защищён мягким лимитером: выше 0 dBFS не бывает.</li>
+    <li><b>Настройки</b> — тема, размер окна, Load image…, Save preset…, About.</li>
+  </ul>
+  <div class="note"><b>Масштаб.</b> Окно тянется за правый нижний угол от 50 до 200%, пропорции сохраняются. Быстрые размеры: настройки → Size (75, 100, 125, 150%).</div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>Главный вид: Canvas и Live</h2>
+  <figure><img src="img/view_canvas.jpg"><figcaption>Canvas: картинка между Low и High в выбранной шкале, такты 1–4, оранжевый курсор.</figcaption></figure>
+  <p><b>Canvas</b> показывает картинку так, как её покажет спектрограмма. По горизонтали — время картинки (номера тактов снизу), по вертикали — частота в выбранной шкале: Lin от 0, Log от <span class="mono">20 Hz</span>, Mel от 0 — до половины частоты дискретизации. Светлые линии с подписями справа — края картинки Low и High. Цвет — громкость, от −Range до 0 dB (легенда сверху справа).</p>
+  <p>Сверху слева: имя картинки, её размер в пикселях, шкала и полоса, такт начала, длина и Loop.</p>
+  <figure><img src="img/view_live.jpg"><figcaption>Live: спектрограмма выхода пишется под курсором, под ней — бледный след картинки.</figcaption></figure>
+  <p><b>Live</b> — спектрограмма того, что выходит из плагина, в той же шкале. Колонки пишутся под курсором, пока идёт транспорт, а бледный след картинки под ней помогает сравнить. Уровень считается от пика последних колонок, цвет — в пределах Range.</p>
+  <ul>
+    <li>Переключение — вкладки снизу справа или стрелки ← → (когда вид в фокусе).</li>
+    <li>Перетащите картинку из Finder на вид — она загрузится. Рамка вида при этом становится оранжевой.</li>
+    <li>Если картинки нет, клик по виду открывает выбор файла.</li>
+  </ul>
+  <figure class="small"><img src="img/view_empty.jpg"><figcaption>Без картинки.</figcaption></figure>
+</section>
+
+<section>
+  <h2><span class="n">06</span>Картинка</h2>
+  <figure><img src="img/panel_picture.jpg" style="max-width: 82mm"><figcaption>Левая половина панели.</figcaption></figure>
+  <h3>Откуда взять</h3>
+  <p>Чип <b>Picture</b> открывает меню:</p>
+  <ul>
+    <li><b>Load image…</b> — PNG, JPG или GIF. Большие картинки уменьшаются до <span class="mono">1024 × 768</span> с сохранением пропорций. Цвет переводится в яркость, прозрачное считается чёрным.</li>
+    <li><b>Type text…</b> — текст до 60 символов, белым по чёрному шрифтом Medeo Sans.</li>
+    <li><b>Built-in</b> — встроенные картинки: Ensō, Sumi, Mountains, Bamboo, Rain, Waves, Test Card.</li>
+    <li><b>Clear</b> — убрать картинку.</li>
+  </ul>
+  <p>Картинка хранится в проекте и в пресете: своя — внутри (PNG), встроенная и текст — только именем.</p>
+  <h3>Как яркость становится громкостью</h3>
+  <table>
+    <tr><th style="width:28mm">Ручка</th><th style="width:34mm">Диапазон</th><th>Что делает</th></tr>
+    <tr><td>Lin / Log / Mel</td><td class="r">Log</td><td>Шкала частот картинки. Ставьте ту же, что у анализатора: <b>Lin</b> — Spek, Audacity, большинство онлайн-спектрограмм; <b>Log</b> — iZotope RX, SPAN, Pro-Q, спектр Ableton; <b>Mel</b> — анализаторы речи и машинного обучения. Иначе картинка растянется по высоте.</td></tr>
+    <tr><td>Low</td><td class="r">20 Hz–20 kHz, 200 Hz</td><td>Частота нижнего края картинки.</td></tr>
+    <tr><td>High</td><td class="r">40 Hz–22 kHz, 16 kHz</td><td>Частота верхнего края. Если High ниже Low, полоса становится узкой над Low. Выше половины частоты дискретизации ничего не звучит.</td></tr>
+    <tr><td>Contrast</td><td class="r">−100…+100%, 0</td><td>Гамма яркости: плюс — средние тона тише (картинка контрастнее), минус — громче.</td></tr>
+    <tr><td>Range</td><td class="r">12–96 dB, 60 dB</td><td>Сколько децибел между белым и самым тёмным серым. Меньше — серые громче и картинка плотнее, больше — тоньше полутона.</td></tr>
+    <tr><td>Invert</td><td class="r">вкл / выкл</td><td>Белое — тишина, чёрное — громко. Для тёмного рисунка на светлом фоне.</td></tr>
+  </table>
+  <div class="note"><b>Чёрное — тишина.</b> Пиксели темнее <span class="mono">3%</span> не звучат совсем: шум JPEG в чёрном фоне не превращается в шипение.</div>
+</section>
+
+<section>
+  <h2><span class="n">07</span>Время и такты</h2>
+  <figure><img src="img/footer.jpg" style="max-width: 110mm"><figcaption>Подвал: Invert, Loop и длина картинки.</figcaption></figure>
+  <p>Картинка стоит на шкале DAW и играет по транспорту: в остановленном проекте Paint молчит, а Imprint пропускает звук без изменений.</p>
+  <table>
+    <tr><th style="width:28mm">Ручка</th><th style="width:34mm">Диапазон</th><th>Что делает</th></tr>
+    <tr><td>Start</td><td class="r">Bar 1–256, Bar 1</td><td>Такт, с которого начинается картинка. До него картинки нет.</td></tr>
+    <tr><td>Length</td><td class="r">1/2–64 bars, 4 bars</td><td>Длина картинки. Такт берётся из размера проекта (4/4 — четыре четверти).</td></tr>
+    <tr><td>Loop</td><td class="r">вкл</td><td>После конца картинка начинается снова. Выключено — звучит один раз.</td></tr>
+    <tr><td>FFT</td><td class="r">1024–8192, 4096</td><td>Размер кадра спектра. Маленький — чёткие края по времени, но грубее по частоте; большой — наоборот. Он же задержка плагина: 4096 при 48 кГц — 85 мс.</td></tr>
+  </table>
+  <p>Задержка сообщается хосту, и он её компенсирует: картинка точно попадает на свой такт, в том числе в экспорте. Без транспорта хоста (Standalone) картинка идёт по кругу с начала.</p>
+  <div class="note"><b>Время ↔ ширина.</b> Картинка растягивается на Length целиком. Чтобы на спектрограмме она не была сплющенной, подберите длину под пропорции анализатора: широкая картинка — больше тактов.</div>
+</section>
+
+<section>
+  <h2><span class="n">08</span>Paint — синтез с нуля</h2>
+  <figure><img src="img/panel_paint.jpg" style="max-width: 110mm"><figcaption>Ручки Paint.</figcaption></figure>
+  <p class="lead">Звук строится только из картинки, вход не используется. Поставьте Sumi на пустую аудиодорожку.</p>
+  <p>Каждый кадр — столбец картинки: для каждой полосы частот громкость берётся из яркости, фаза — случайная или ровная. Кадры складываются обратным преобразованием Фурье с перекрытием 75%.</p>
+  <table>
+    <tr><th style="width:28mm">Ручка</th><th style="width:34mm">Диапазон</th><th>Что делает</th></tr>
+    <tr><td>Level</td><td class="r">−48…+12 dB, 0</td><td>Громкость картинки. При 0 dB вся полоса, залитая белым, даёт около <span class="mono">−14 dBFS</span> RMS, независимо от ширины полосы и FFT.</td></tr>
+    <tr><td>Tone</td><td class="r">0–100%, 0</td><td>0 — каждая полоса шумит (картинка самая чёткая, звук — шорох). 100 — ровные тона на частотах полос (звучит как орган, на спектрограмме тонкие линии).</td></tr>
+    <tr><td>Width</td><td class="r">0–100%, 100%</td><td>Стерео: 0 — моно, 100 — каналы с разной фазой, широкий звук.</td></tr>
+  </table>
+  <div class="three">
+    <figure><img src="img/spec_misty_mountains.jpg"><figcaption>Misty Mountains: Mel, 60 Hz – 12 kHz.</figcaption></figure>
+    <figure><img src="img/spec_bamboo_organ.jpg"><figcaption>Bamboo Organ: Tone 100%.</figcaption></figure>
+    <figure><img src="img/spec_sliding_tones.jpg"><figcaption>Sliding Tones: FFT 8192.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">09</span>Imprint — в готовый звук</h2>
+  <p class="lead">Картинка вписывается в звук на входе. Поставьте Sumi на дорожку со звуком.</p>
+  <div class="two">
+    <figure><img src="img/panel_add.jpg"><figcaption>Add.</figcaption></figure>
+    <figure><img src="img/panel_mask.jpg"><figcaption>Mask.</figcaption></figure>
+  </div>
+  <h3>Add — поверх</h3>
+  <p>Картинка синтезируется как в Paint и прибавляется к звуку. Сам звук не меняется. Так прячут подпись или рисунок в верхних частотах трека: на слух почти незаметно, на спектрограмме видно.</p>
+  <h3>Mask — вырезать</h3>
+  <p>Звук умножается на картинку: он остаётся только там, где картинка светлая. Вне полосы Low–High звук глушится — иначе вырезанное тонуло бы в остальном спектре. Картинка видна там, где у звука есть энергия, поэтому лучше всего работает на насыщенном материале: шум, пэды, барабаны, полный микс.</p>
+  <table>
+    <tr><th style="width:28mm">Ручка</th><th style="width:34mm">Диапазон</th><th>Что делает</th></tr>
+    <tr><td>Add / Mask</td><td class="r">Mask</td><td>Как вписывать картинку.</td></tr>
+    <tr><td>Mix</td><td class="r">0–100%, 100%</td><td>Сухой и обработанный звук. Сухой задержан на то же время, поэтому фазы совпадают.</td></tr>
+    <tr><td>Level</td><td class="r">−48…+12 dB, 0</td><td>Add — громкость картинки. Mask — громкость вырезанного звука (компенсирует то, что вырезано).</td></tr>
+    <tr><td>Tone, Width</td><td class="r">как в Paint</td><td>Только Add: характер картинки.</td></tr>
+    <tr><td>Flatten</td><td class="r">0–100%, 50%</td><td>Только Mask: выравнивает спектр входа к среднему (до ±30 dB), чтобы картинка проступала и там, где у звука мало энергии. 0 — тембр как есть, 100 — почти ровный шум с формой картинки.</td></tr>
+  </table>
+  <p>Вне картинки по времени (до Start, после конца без Loop, на остановке) звук проходит без изменений.</p>
+  <div class="two">
+    <figure><img src="img/spec_carve_mountains.jpg"><figcaption>Carve Mountains: Mask по аккорду с шумом.</figcaption></figure>
+    <figure><img src="img/spec_hidden_signature.jpg"><figcaption>Hidden Signature: Add, 15–19.5 kHz, Level −18 dB.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">10</span>Пресеты и настройки</h2>
+  <h3>Пресеты</h3>
+  <p>Paint: <b>Enso</b>, <b>Ink Wordmark</b>, <b>Misty Mountains</b>, <b>Bamboo Organ</b>, <b>Rain on Glass</b>, <b>Sliding Tones</b>, <b>Test Card</b>. Imprint: <b>Carve Mountains</b>, <b>Enso Stencil</b>, <b>Hidden Signature</b>, <b>Rain Layer</b>, <b>Half Mask</b>.</p>
+  <p>Пресет хранит картинку и все ручки, кроме громкости Out. Сохранить свой: меню пресета или настройки → <b>Save preset…</b>. Ваши пресеты лежат в <code>~/Music/Sumi/Presets/*.sumi</code>, в меню они ниже фабричных, стрелки <b>‹ ›</b> листают и их.</p>
+  <h3>Настройки</h3>
+  <ul>
+    <li><b>Appearance</b> — Match system, Oxygen (светлая), Rubber (тёмная).</li>
+    <li><b>Size</b> — 75, 100, 125, 150%.</li>
+    <li><b>Load image…</b>, <b>Save preset…</b>, <b>About Sumi</b>.</li>
+  </ul>
+  <p>Картинка и ручки сохраняются в проекте. Тема и размер окна — общие для всех проектов (<code>~/Library/Application Support/Sumi</code>).</p>
+  <div class="note"><b>Клавиатура.</b> Tab переходит между элементами, вокруг активного рисуется оранжевая рамка. Пробел или Return нажимает и открывает меню, стрелки меняют значения и переключают вкладки.</div>
+  <figure class="small"><img src="img/main_oxygen.jpg"><figcaption>Светлая тема Oxygen, вид Canvas.</figcaption></figure>
+</section>
+
+<section>
+  <h2><span class="n">11</span>Рецепты</h2>
+  <div class="keep">
+    <h3>Самая чёткая картинка</h3>
+    <ol>
+      <li>Paint, Tone 0, контрастная картинка: белое на чёрном, без мелких деталей.</li>
+      <li>Шкала — как у анализатора, полоса пошире: например Lin, <span class="mono">500 Hz – 18 kHz</span>.</li>
+      <li>FFT 4096. Чёткие вертикальные края — 2048, тонкие горизонтальные линии — 8192.</li>
+    </ol>
+  </div>
+  <div class="keep">
+    <h3>Подпись в треке</h3>
+    <ol>
+      <li>Imprint, Add, Type text… — ваш ник.</li>
+      <li>Lin, Low <span class="mono">15 kHz</span>, High <span class="mono">19.5 kHz</span>, Level <span class="mono">−18…−12 dB</span>, Loop выключен.</li>
+      <li>Start — такт, где подпись должна появиться.</li>
+    </ol>
+  </div>
+  <div class="keep">
+    <h3>Ритм картинкой</h3>
+    <ol>
+      <li>Imprint, Mask на барабанах или пэде, Flatten <span class="mono">40–70%</span>.</li>
+      <li>Картинка с вертикальными полосами (Rain, Test Card или своя), Length 1 bar, Loop.</li>
+      <li>Mix <span class="mono">60–80%</span>, чтобы оставить немного исходника.</li>
+    </ol>
+  </div>
+  <div class="keep">
+    <h3>Пейзаж-дрон</h3>
+    <ol>
+      <li>Paint, Mountains, Mel, <span class="mono">60 Hz – 12 kHz</span>, Length 8–16 bars.</li>
+      <li>Tone <span class="mono">30–60%</span>: шорох становится тоновым гулом, но картинка ещё видна.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">12</span>Вопросы и ответы</h2>
+  <table>
+    <tr><th style="width:56mm">Вопрос</th><th>Ответ</th></tr>
+    <tr><td>Sumi не появился в Ableton</td><td>Settings → Plug-Ins: включены «Use VST3 Plug-ins» и «Use Audio Units», затем Rescan. Если не помогло, повторите установку скриптом: он снимает карантин macOS.</td></tr>
+    <tr><td>macOS пишет, что плагин повреждён</td><td>Это карантин неподписанного плагина. Запустите <code>install-mac.sh</code> ещё раз.</td></tr>
+    <tr><td>Нет звука</td><td>Картинка играет по транспорту: нажмите Play и проверьте Start (картинка начинается с этого такта) и Loop. В Paint вход не используется — нужна картинка. Проверьте, что Out не на минимуме.</td></tr>
+    <tr><td>Картинка на спектрограмме растянута или сплющена</td><td>По высоте — выберите ту же шкалу (Lin / Log / Mel) и полосу, что у анализатора. По ширине — подберите Length.</td></tr>
+    <tr><td>Картинка вышла негативом</td><td>Включите Invert: Sumi считает громким белое.</td></tr>
+    <tr><td>В Mask картинку почти не видно</td><td>Поднимите Flatten и Level, расширьте полосу туда, где у звука есть энергия. На тихом или узком по спектру звуке рисовать нечем — попробуйте Add.</td></tr>
+    <tr><td>Звук запаздывает</td><td>Задержка равна размеру FFT (4096 при 48 кГц — 85 мс), хост её компенсирует. Если трек играется вживую через монитор — уменьшите FFT.</td></tr>
+    <tr><td>Откроются ли старые проекты после обновления?</td><td>Да, состояние и картинка сохраняются между версиями. Если диапазон какого-то параметра меняется, это будет сказано в патчноуте.</td></tr>
+    <tr><td>Где история изменений</td><td>На странице релизов GitHub, у каждой версии свой патчноут.</td></tr>
+  </table>
+  <p style="margin-top:8mm; color: var(--ink2); font-size: 9pt;">Sumi v1 · made by nnn · написан на C++ и JUCE 8. Встроенные картинки нарисованы кодом, шрифты Medeo — SIL Open Font License.<br>Исходники и релизы: <span class="mono">github.com/controloptioncommand/Sumi-vst</span></p>
+</section>
+
+</body>
+</html>
